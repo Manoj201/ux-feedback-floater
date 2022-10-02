@@ -19,7 +19,10 @@
     "type": "git",
     "url": "git+https://github.com/Manoj201/ux-feedback-floater.git"
   },
-  "keywords": ["react","typescript"],
+  "keywords": [
+    "react",
+    "typescript"
+  ],
   "author": "Manoj Gamachchige (manoj201)",
   "license": "MIT",
   "bugs": {
@@ -42,6 +45,7 @@
     "@typescript-eslint/parser": "^5.38.1",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
