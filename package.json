@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/Manoj201/ux-feedback-floater#readme",
   "peerDependencies": {
-    "react": ">=16"
+    "react": ">=16",
+    "react-dom": ">=16"
   },
   "files": [
     "dist",
@@ -57,5 +58,12 @@
     "react-dom": "^18.2.0",
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.8"
   }
 }
