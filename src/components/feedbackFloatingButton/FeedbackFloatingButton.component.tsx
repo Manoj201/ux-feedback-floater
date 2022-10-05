@@ -1,12 +1,9 @@
 import React from 'react'
-import Button from '@mui/material/Button'
+
+import './FeedbackFloatingButton.css'
 
 const FeedbackFloatingButton = () => {
-  return (
-    <div>
-      <Button variant='contained'>Contained</Button>
-    </div>
-  )
+  return <div className='fab-button'>Fab Button</div>
 }
 
 export default FeedbackFloatingButton

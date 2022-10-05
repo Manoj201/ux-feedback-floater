@@ -1,8 +1,7 @@
 import React from 'react';
-import Button from '@mui/material/Button';
+import './FeedbackFloatingButton.css';
 var FeedbackFloatingButton = function () {
-    return (React.createElement("div", null,
-        React.createElement(Button, { variant: 'contained' }, "Contained")));
+    return React.createElement("div", { className: 'fab-button' }, "Fab Button");
 };
 export default FeedbackFloatingButton;
 //# sourceMappingURL=FeedbackFloatingButton.component.js.map

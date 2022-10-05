@@ -7,8 +7,8 @@
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "build": "npm run build:esm --nomaps && npm run build:cjs && yarn run delete-maps",
-    "build:esm": "tsc",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:esm": "copyfiles -u 1  src/**/*.css dist/esm && tsc",
+    "build:cjs": "copyfiles -u 1  src/**/*.css dist/cjs && tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "test": "jest --config jestconfig.json",
@@ -47,6 +47,7 @@
     "@types/react": "^18.0.21",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
@@ -59,6 +60,7 @@
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
   },
