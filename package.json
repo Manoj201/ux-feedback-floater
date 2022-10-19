@@ -1,12 +1,12 @@
 {
   "name": "ux-feedback-floating-button",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "build": "npm run build:esm --nomaps && npm run build:cjs",
+    "build": "npm run build:esm --nomaps && npm run build:cjs && yarn run delete-maps",
     "build:esm": "copyfiles -u 1  src/**/*.css dist/esm && tsc",
     "build:cjs": "copyfiles -u 1  src/**/*.css dist/cjs && tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
