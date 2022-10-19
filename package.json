@@ -6,7 +6,7 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "build": "GENERATE_SOURCEMAP=false npm run build:esm --nomaps && npm run build:cjs && yarn run delete-maps",
+    "build": "npm run build:esm --nomaps && npm run build:cjs && yarn run delete-maps",
     "build:esm": "copyfiles -u 1  src/**/*.css dist/esm && tsc",
     "build:cjs": "copyfiles -u 1  src/**/*.css dist/cjs && tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
