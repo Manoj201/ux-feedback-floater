@@ -76,7 +76,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
 
   useEffect(() => {
     const textArea: any = textAreaRef.current
-    if (action === 'writing' && textArea) {
+    if (action === 'writing') {
       // textArea.focus();
       textArea.value = selectedElement.text
     }
@@ -103,7 +103,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
         break
       case 'text':
         const canvasEl: any = document.getElementById('canvas')
-        const textWidth: any = canvasEl?.getContext('2d').measureText(options.text).width
+        const textWidth: any = canvasEl.getContext('2d').measureText(options.text).width
         const textHeight = 24
         elementsCopy[id] = {
           ...createElement(id, x1, y1, x1 + textWidth, y1 ? y1 + textHeight : textHeight, type, options, generator),
