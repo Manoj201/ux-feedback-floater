@@ -1,0 +1,27 @@
+.feedback-form-inputs-wrapper {
+    margin-bottom: 27px;
+}
+
+.feedback-form-inputs-label {
+    display: flex;
+    flex-direction: row;
+    color: #FFFFFE;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.feedback-form-inputs-label-comments {
+    display: flex;
+    flex-direction: row;
+    color: #9FC540;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+.error-text {
+    color: #f5574c;
+    margin-left: 20px;
+    font-weight: 600;
+    font-size: 12px;
+}

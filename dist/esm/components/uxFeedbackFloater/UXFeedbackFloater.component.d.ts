@@ -1,3 +1,4 @@
 /// <reference types="react" />
-declare const UXFeedbackFloater: () => JSX.Element;
-export default UXFeedbackFloater;
+import './UXFeeedBackFloater.css';
+declare const UXFeeedBackFloater: () => JSX.Element;
+export default UXFeeedBackFloater;
