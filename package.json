@@ -1,14 +1,14 @@
 {
   "name": "ux-feedback-floating-button",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "build": "npm run build:esm --nomaps && npm run build:cjs && yarn run delete-maps",
-    "build:esm": "copyfiles -u 1  src/**/*.css dist/esm && tsc",
-    "build:cjs": "copyfiles -u 1  src/**/*.css dist/cjs && tsc --module commonjs --outDir dist/cjs",
+    "build:esm": "copyfiles -u 1  src/**/*.css dist/esm && copyfiles -u 1  src/**/*.svg dist/esm && tsc",
+    "build:cjs": "copyfiles -u 1  src/**/*.css dist/cjs && copyfiles -u 1  src/**/*.svg dist/cjs &&tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "prepare": "npm run build",
