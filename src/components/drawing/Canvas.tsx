@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import rough from 'roughjs'
+// @ts-ignore: Unreachable code error
+import rough from 'roughjs/bundled/rough.esm'
 import * as htmlToImage from 'html-to-image'
 
 import './Canvas.css'
