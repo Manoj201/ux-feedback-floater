@@ -1,7 +1,7 @@
 {
     "transform": {
       "^.+\\.(t|j)sx?$": "ts-jest",
-      "^.+\\.svg$": "jest-svg-transformer"
+      ".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "jest-transform-stub"
     },
     "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node", "css"],
