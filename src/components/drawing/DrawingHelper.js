@@ -2,24 +2,14 @@
 import getStroke from 'perfect-freehand'
 import { useState } from 'react'
 
-const createElement = (
-  id: string,
-  x1: number,
-  y1: number | null,
-  x2: number | null,
-  y2: number | null,
-  type: string,
-  options: any,
-  generator: any,
-) => {
+const createElement = (id, x1, y1, x2, y2, type, options, generator) => {
   switch (type) {
     case 'line':
     case 'rectangle':
-      // eslint-disable-next-line no-case-declarations
       const roughElement =
         type === 'line'
           ? generator.line(x1, y1, x2, y2, { stroke: options.color })
-          : generator.rectangle(x1, y1, x2 ? x2 - x1 : 0 - x1, y1 && y2 ? y2 - y1 : y2, {
+          : generator.rectangle(x1, y1, x2 - x1, y2 - y1, {
               stroke: options.color,
             })
       return { id, x1, y1, x2, y2, type, options, roughElement }
@@ -32,11 +22,11 @@ const createElement = (
   }
 }
 
-const nearPoint = (x: number, y: number, x1: number, y1: number, name: string) => {
+const nearPoint = (x, y, x1, y1, name) => {
   return Math.abs(x - x1) < 5 && Math.abs(y - y1) < 5 ? name : null
 }
 
-const onLine = (x1: number, y1: number, x2: number, y2: number, x: number, y: number, maxDistance = 1) => {
+const onLine = (x1, y1, x2, y2, x, y, maxDistance = 1) => {
   const a = { x: x1, y: y1 }
   const b = { x: x2, y: y2 }
   const c = { x, y }
@@ -44,7 +34,7 @@ const onLine = (x1: number, y1: number, x2: number, y2: number, x: number, y: nu
   return Math.abs(offset) < maxDistance ? 'inside' : null
 }
 
-const positionWithinElement = (x: number, y: number, element: any) => {
+const positionWithinElement = (x, y, element) => {
   const { type, x1, x2, y1, y2 } = element
   switch (type) {
     case 'line':
@@ -60,7 +50,7 @@ const positionWithinElement = (x: number, y: number, element: any) => {
       const inside = x >= x1 && x <= x2 && y >= y1 && y <= y2 ? 'inside' : null
       return topLeft || topRight || bottomLeft || bottomRight || inside
     case 'pencil':
-      const betweenAnyPoint = element.points.some((point: any, index: any) => {
+      const betweenAnyPoint = element.points.some((point, index) => {
         const nextPoint = element.points[index + 1]
         if (!nextPoint) return false
         return onLine(point.x, point.y, nextPoint.x, nextPoint.y, x, y, 5) != null
@@ -73,18 +63,18 @@ const positionWithinElement = (x: number, y: number, element: any) => {
   }
 }
 
-const distance = (a: any, b: any) => Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
+const distance = (a, b) => Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
 
-const getElementAtPosition = (x: number, y: number, elements: any) => {
+const getElementAtPosition = (x, y, elements) => {
   return elements
-    .map((element: any) => ({
+    .map((element) => ({
       ...element,
       position: positionWithinElement(x, y, element),
     }))
-    .find((element: any) => element.position !== null)
+    .find((element) => element.position !== null)
 }
 
-const adjustElementCoordinates = (element: any) => {
+const adjustElementCoordinates = (element) => {
   const { type, x1, y1, x2, y2 } = element
   if (type === 'rectangle') {
     const minX = Math.min(x1, x2)
@@ -101,7 +91,7 @@ const adjustElementCoordinates = (element: any) => {
   }
 }
 
-const cursorForPosition = (position: string) => {
+const cursorForPosition = (position) => {
   switch (position) {
     case 'tl':
     case 'br':
@@ -116,7 +106,7 @@ const cursorForPosition = (position: string) => {
   }
 }
 
-const resizedCoordinates = (clientX: number, clientY: number, position: string, coordinates: any) => {
+const resizedCoordinates = (clientX, clientY, position, coordinates) => {
   const { x1, y1, x2, y2 } = coordinates
   switch (position) {
     case 'tl':
@@ -134,11 +124,11 @@ const resizedCoordinates = (clientX: number, clientY: number, position: string, 
   }
 }
 
-const useHistory = (initialState: any) => {
+const useHistory = (initialState) => {
   const [index, setIndex] = useState(0)
   const [history, setHistory] = useState([initialState])
 
-  const setState = (action: any, overwrite = false) => {
+  const setState = (action, overwrite = false) => {
     const newState = typeof action === 'function' ? action(history[index]) : action
     if (overwrite) {
       const historyCopy = [...history]
@@ -159,11 +149,11 @@ const useHistory = (initialState: any) => {
   return [history[index], setState, undo, redo, reset]
 }
 
-const getSvgPathFromStroke = (stroke: any) => {
+const getSvgPathFromStroke = (stroke) => {
   if (!stroke.length) return ''
 
   const d = stroke.reduce(
-    (acc: any, [x0, y0]: any, i: number, arr: any) => {
+    (acc, [x0, y0], i, arr) => {
       const [x1, y1] = arr[(i + 1) % arr.length]
       acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2)
       return acc
@@ -175,7 +165,7 @@ const getSvgPathFromStroke = (stroke: any) => {
   return d.join(' ')
 }
 
-const drawElement = (roughCanvas: any, context: any, element: any) => {
+const drawElement = (roughCanvas, context, element) => {
   switch (element.type) {
     case 'line':
     case 'rectangle':
@@ -197,7 +187,7 @@ const drawElement = (roughCanvas: any, context: any, element: any) => {
   }
 }
 
-const adjustmentRequired = (type: string) => ['line', 'rectangle'].includes(type)
+const adjustmentRequired = (type) => ['line', 'rectangle'].includes(type)
 
 export {
   createElement,

@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable no-case-declarations */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-// @ts-ignore: Unreachable code error
 import rough from 'roughjs/bundled/rough.esm'
 import * as htmlToImage from 'html-to-image'
 
@@ -31,13 +32,13 @@ import {
 
 const generator = rough.generator()
 
-const Canvas = ({ onClickSave, onClickCancel }: any) => {
+const Canvas = ({ onClickSave, onClickCancel }) => {
   const [elements, setElements, undo, redo, reset] = useHistory([])
   const [action, setAction] = useState('none')
-  const [selectedElement, setSelectedElement] = useState<any>(null)
+  const [selectedElement, setSelectedElement] = useState(null)
   const [tool, setTool] = useState('pencil')
   const color = 'red'
-  const textAreaRef = useRef<any>()
+  const textAreaRef = useRef()
 
   useEffect(() => {
     reset()
@@ -45,20 +46,20 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
   }, [])
 
   useLayoutEffect(() => {
-    const canvas: any = document.getElementById('canvas')
+    const canvas = document.getElementById('canvas')
     const context = canvas.getContext('2d')
     context.clearRect(0, 0, canvas.width, canvas.height)
 
     const roughCanvas = rough.canvas(canvas)
 
-    elements.forEach((element: any) => {
-      if (action === 'writing' && selectedElement?.id === element.id) return
+    elements.forEach((element) => {
+      if (action === 'writing' && selectedElement.id === element.id) return
       drawElement(roughCanvas, context, element)
     })
   }, [elements, action, selectedElement])
 
   useEffect(() => {
-    const undoRedoFunction = (event: any) => {
+    const undoRedoFunction = (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key === 'z') {
         if (event.shiftKey) {
           redo()
@@ -75,23 +76,15 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
   }, [undo, redo])
 
   useEffect(() => {
-    const textArea: any = textAreaRef.current
+    const textArea = textAreaRef.current
     if (action === 'writing') {
       // textArea.focus();
       textArea.value = selectedElement.text
     }
   }, [action, selectedElement])
 
-  const updateElement = (
-    id: any,
-    x1: number,
-    y1: number | null,
-    x2: number | null,
-    y2: number | null,
-    type: string,
-    options: any,
-  ) => {
-    const elementsCopy: Array<any> = [...elements]
+  const updateElement = (id, x1, y1, x2, y2, type, options) => {
+    const elementsCopy = [...elements]
 
     switch (type) {
       case 'line':
@@ -102,11 +95,10 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
         elementsCopy[id].points = [...elementsCopy[id].points, { x: x2, y: y2 }]
         break
       case 'text':
-        const canvasEl: any = document.getElementById('canvas')
-        const textWidth: any = canvasEl.getContext('2d').measureText(options.text).width
+        const textWidth = document.getElementById('canvas').getContext('2d').measureText(options.text).width
         const textHeight = 24
         elementsCopy[id] = {
-          ...createElement(id, x1, y1, x1 + textWidth, y1 ? y1 + textHeight : textHeight, type, options, generator),
+          ...createElement(id, x1, y1, x1 + textWidth, y1 + textHeight, type, options, generator),
           text: options.text,
         }
         break
@@ -117,7 +109,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
     setElements(elementsCopy, true)
   }
 
-  const handleMouseDown = (event: any) => {
+  const handleMouseDown = (event) => {
     if (action === 'writing') return
 
     const { clientX, clientY } = event
@@ -125,15 +117,15 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
       const element = getElementAtPosition(clientX, clientY, elements)
       if (element) {
         if (element.type === 'pencil') {
-          const xOffsets = element.points.map((point: any) => clientX - point.x)
-          const yOffsets = element.points.map((point: any) => clientY - point.y)
+          const xOffsets = element.points.map((point) => clientX - point.x)
+          const yOffsets = element.points.map((point) => clientY - point.y)
           setSelectedElement({ ...element, xOffsets, yOffsets })
         } else {
           const offsetX = clientX - element.x1
           const offsetY = clientY - element.y1
           setSelectedElement({ ...element, offsetX, offsetY })
         }
-        setElements((prevState: any) => prevState)
+        setElements((prevState) => prevState)
 
         if (element.position === 'inside') {
           setAction('moving')
@@ -144,14 +136,14 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
     } else {
       const id = elements.length
       const element = createElement(id, clientX, clientY, clientX, clientY, tool, { color }, generator)
-      setElements((prevState: any) => [...prevState, element])
+      setElements((prevState) => [...prevState, element])
       setSelectedElement(element)
 
       setAction(tool === 'text' ? 'writing' : 'drawing')
     }
   }
 
-  const handleMouseMove = (event: any) => {
+  const handleMouseMove = (event) => {
     const { clientX, clientY } = event
 
     if (tool === 'selection') {
@@ -165,7 +157,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
       updateElement(index, x1, y1, clientX, clientY, tool, options)
     } else if (action === 'moving') {
       if (selectedElement.type === 'pencil') {
-        const newPoints = selectedElement.points.map((_: any, index: number) => ({
+        const newPoints = selectedElement.points.map((_, index) => ({
           x: clientX - selectedElement.xOffsets[index],
           y: clientY - selectedElement.yOffsets[index],
         }))
@@ -189,12 +181,12 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
       }
     } else if (action === 'resizing') {
       const { id, type, options, position, ...coordinates } = selectedElement
-      const { x1, y1, x2, y2 }: any = resizedCoordinates(clientX, clientY, position, coordinates)
+      const { x1, y1, x2, y2 } = resizedCoordinates(clientX, clientY, position, coordinates)
       updateElement(id, x1, y1, x2, y2, type, options)
     }
   }
 
-  const handleMouseUp = (event: any) => {
+  const handleMouseUp = (event) => {
     const { clientX, clientY } = event
     if (selectedElement) {
       if (
@@ -220,7 +212,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
     setSelectedElement(null)
   }
 
-  const handleBlur = (event: any) => {
+  const handleBlur = (event) => {
     const { id, x1, y1, type } = selectedElement
     setAction('none')
     setSelectedElement(null)
@@ -228,7 +220,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
   }
 
   const handleCaptureScree = () => {
-    const node: any = document.getElementById('root')
+    let node = document.getElementById('root')
     htmlToImage
       .toPng(node)
       .then(function (dataUrl) {
@@ -246,16 +238,15 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
         <ToolButton onclickTool={() => setTool('rectangle')} icon={CropSquareIcon} isActive={tool === 'rectangle'} />
         <ToolButton onclickTool={() => setTool('text')} icon={CommentIcon} isActive={tool === 'text'} />
         <ToolButton onclickTool={() => setTool('selection')} icon={PanToolIcon} isActive={tool === 'selection'} />
-        <ToolButton onclickTool={undo} icon={UndoIcon} isActive={false} />
-        <ToolButton onclickTool={redo} icon={RedoIcon} isActive={false} />
-        <ToolButton onclickTool={handleCaptureScree} icon={SaveIcon} isActive={false} />
+        <ToolButton onclickTool={undo} icon={UndoIcon} />
+        <ToolButton onclickTool={redo} icon={RedoIcon} />
+        <ToolButton onclickTool={handleCaptureScree} icon={SaveIcon} />
         <ToolButton
           onclickTool={() => {
             onClickCancel()
             reset()
           }}
           icon={CloseIcon}
-          isActive={false}
         />
       </div>
 
@@ -263,7 +254,7 @@ const Canvas = ({ onClickSave, onClickCancel }: any) => {
         <textarea
           ref={textAreaRef}
           onBlur={handleBlur}
-          autoFocus={true}
+          autofocus={true}
           placeholder='Enter your feedback'
           className='canvas-comment-area'
           style={{
