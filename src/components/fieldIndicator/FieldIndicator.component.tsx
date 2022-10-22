@@ -1,15 +1,7 @@
 import React from 'react'
 
+import { FieldIndicator } from '../../types/component.types'
 import './FieldIndicator.css'
-
-interface IndicatorDataType {
-  isRequired: boolean
-  topLineHeight: number
-}
-
-interface FieldIndicator {
-  data: Array<IndicatorDataType>
-}
 
 const FieldIndicator: React.FC<FieldIndicator> = ({ data }: FieldIndicator) => {
   return (

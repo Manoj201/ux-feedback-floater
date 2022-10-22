@@ -1,11 +1,8 @@
-import { useState, useEffect, ReactElement } from 'react'
+import { useState, useEffect } from 'react'
 
-interface DelayedComponentTypes {
-  children: ReactElement
-  waitBeforeShow: number
-}
+import { DelayedComponentTypes } from '../../types/component.types'
 
-const Delayed: React.FC<DelayedComponentTypes> = ({ children, waitBeforeShow = 300 }: any) => {
+const Delayed = ({ children, waitBeforeShow = 300 }: DelayedComponentTypes) => {
   const [isShown, setIsShown] = useState(false)
   useEffect(() => {
     const timer = setTimeout(() => {

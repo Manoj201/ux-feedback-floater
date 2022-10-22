@@ -1,16 +1,8 @@
-import React, { RefObject } from 'react'
+import React from 'react'
 import TextField from '@mui/material/TextField'
-import './FeedbackTextfield.css'
 
-interface FeedbackTextfieldType {
-  inputRef: RefObject<any>
-  label: string
-  isComment?: boolean
-  onChange?: (event: any) => void
-  isError?: boolean
-  errorText?: string
-  value: string | null
-}
+import { FeedbackTextfieldType } from '../../types/component.types'
+import './FeedbackTextfield.css'
 
 const FeedbackTextfield: React.FC<FeedbackTextfieldType> = ({
   inputRef,

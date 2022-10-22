@@ -11,24 +11,7 @@ import cameraActiveSVG from '../../images/camera-active.svg'
 import doneSVG from '../../images/done.svg'
 
 import './FeedbackDialog.css'
-
-interface FormDataType {
-  name: string | null
-  email: string | null
-  comments: string | null
-}
-
-interface FeedbackDialogType {
-  open: boolean
-  onClickDialogClose: () => void
-  rating: number
-  onClickAddImage: (value: boolean, formData: FormDataType) => void
-  isScreenCaptured: boolean
-  onClickRemoveImage: () => void
-  onClickRetakeScreenshot: () => void
-  initialFormData: FormDataType
-  onClickSubmit: (data: FormDataType) => void
-}
+import { FeedbackDialogType } from '../../types/component.types'
 
 const indicatorData = [
   { isRequired: false, topLineHeight: 0 },

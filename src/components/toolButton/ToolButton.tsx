@@ -1,13 +1,8 @@
 import React from 'react'
 import IconButton from '@mui/material/IconButton'
 
+import { ToolButtonType } from '../../types/component.types'
 import './ToolButton.css'
-
-interface ToolButtonType {
-  onclickTool: () => void
-  icon: any
-  isActive: boolean
-}
 
 const ToolButton: React.FC<ToolButtonType> = ({ onclickTool, icon: Icon, isActive }: ToolButtonType) => {
   return (
