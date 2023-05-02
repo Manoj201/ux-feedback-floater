@@ -1,7 +1,4 @@
-import { ReactElement } from 'react';
-interface DelayedComponentTypes {
-    children: ReactElement;
-    waitBeforeShow: number;
-}
-declare const Delayed: React.FC<DelayedComponentTypes>;
+/// <reference types="react" />
+import { DelayedComponentTypes } from '../../types/component.types';
+declare const Delayed: ({ children, waitBeforeShow }: DelayedComponentTypes) => import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | null;
 export default Delayed;

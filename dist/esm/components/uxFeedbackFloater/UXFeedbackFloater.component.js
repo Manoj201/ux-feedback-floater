@@ -1,3 +1,4 @@
+import { __awaiter, __generator } from "tslib";
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState, useMemo } from 'react';
 import classNames from 'classnames';
@@ -49,10 +50,39 @@ var UXFeeedBackFloater = function () {
         setImageData(imageData);
         setClickedAddImage(false);
     };
-    var handleSubmit = function (formData) {
-        console.log(formData, rating, imageData);
-        setFormData(initialFormData);
-    };
+    var handleSubmit = function (formData) { return __awaiter(void 0, void 0, void 0, function () {
+        var rawResponse, content;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log(formData, rating, imageData);
+                    return [4 /*yield*/, fetch('https://nsldev.nimble.expert/AdminConsole/api/Feedback', {
+                            method: 'POST',
+                            headers: {
+                                Accept: 'application/json',
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                comments: formData.comments,
+                                workspaceId: 1,
+                                fullName: formData.name,
+                                email: formData.email,
+                                screenshotData: imageData,
+                                screenshotFileName: 'nsl-iamge',
+                                feedbackFiles: [],
+                            }),
+                        })];
+                case 1:
+                    rawResponse = _a.sent();
+                    return [4 /*yield*/, rawResponse.json()];
+                case 2:
+                    content = _a.sent();
+                    console.log(content);
+                    setFormData(initialFormData);
+                    return [2 /*return*/];
+            }
+        });
+    }); };
     var handleDialogClose = function () {
         setRating(0);
         setImageData(null);

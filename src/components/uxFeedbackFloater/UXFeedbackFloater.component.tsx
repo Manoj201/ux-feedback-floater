@@ -61,8 +61,28 @@ const UXFeeedBackFloater = () => {
     setClickedAddImage(false)
   }
 
-  const handleSubmit = (formData: any) => {
+  const handleSubmit = async (formData: any) => {
     console.log(formData, rating, imageData)
+
+    const rawResponse = await fetch('https://nsldev.nimble.expert/AdminConsole/api/Feedback', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        comments: formData.comments,
+        workspaceId: 1,
+        fullName: formData.name,
+        email: formData.email,
+        screenshotData: imageData,
+        screenshotFileName: 'nsl-iamge',
+        feedbackFiles: [],
+      }),
+    })
+    const content = await rawResponse.json()
+    console.log(content)
+
     setFormData(initialFormData)
   }
 

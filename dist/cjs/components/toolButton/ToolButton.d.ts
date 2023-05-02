@@ -1,9 +1,5 @@
 import React from 'react';
+import { ToolButtonType } from '../../types/component.types';
 import './ToolButton.css';
-interface ToolButtonType {
-    onclickTool: () => void;
-    icon: any;
-    isActive: boolean;
-}
 declare const ToolButton: React.FC<ToolButtonType>;
 export default ToolButton;

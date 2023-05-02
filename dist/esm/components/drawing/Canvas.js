@@ -1,7 +1,9 @@
 import { __assign, __rest, __spreadArray } from "tslib";
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable no-case-declarations */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import rough from 'roughjs';
+import rough from 'roughjs/bundled/rough.esm';
 import * as htmlToImage from 'html-to-image';
 import './Canvas.css';
 import { Create as CreateIcon, CropSquare as CropSquareIcon, Comment as CommentIcon, Redo as RedoIcon, Undo as UndoIcon, Save as SaveIcon, Close as CloseIcon, PanTool as PanToolIcon, } from '@mui/icons-material';
@@ -26,7 +28,7 @@ var Canvas = function (_a) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         var roughCanvas = rough.canvas(canvas);
         elements.forEach(function (element) {
-            if (action === 'writing' && (selectedElement === null || selectedElement === void 0 ? void 0 : selectedElement.id) === element.id)
+            if (action === 'writing' && selectedElement.id === element.id)
                 return;
             drawElement(roughCanvas, context, element);
         });
@@ -49,7 +51,7 @@ var Canvas = function (_a) {
     }, [undo, redo]);
     useEffect(function () {
         var textArea = textAreaRef.current;
-        if (action === 'writing' && textArea) {
+        if (action === 'writing') {
             // textArea.focus();
             textArea.value = selectedElement.text;
         }
@@ -65,10 +67,9 @@ var Canvas = function (_a) {
                 elementsCopy[id].points = __spreadArray(__spreadArray([], elementsCopy[id].points, true), [{ x: x2, y: y2 }], false);
                 break;
             case 'text':
-                var canvasEl = document.getElementById('canvas');
-                var textWidth = canvasEl === null || canvasEl === void 0 ? void 0 : canvasEl.getContext('2d').measureText(options.text).width;
+                var textWidth = document.getElementById('canvas').getContext('2d').measureText(options.text).width;
                 var textHeight = 24;
-                elementsCopy[id] = __assign(__assign({}, createElement(id, x1, y1, x1 + textWidth, y1 ? y1 + textHeight : textHeight, type, options, generator)), { text: options.text });
+                elementsCopy[id] = __assign(__assign({}, createElement(id, x1, y1, x1 + textWidth, y1 + textHeight, type, options, generator)), { text: options.text });
                 break;
             default:
                 throw new Error("Type not recognised: ".concat(type));
@@ -190,14 +191,14 @@ var Canvas = function (_a) {
             React.createElement(ToolButton, { onclickTool: function () { return setTool('rectangle'); }, icon: CropSquareIcon, isActive: tool === 'rectangle' }),
             React.createElement(ToolButton, { onclickTool: function () { return setTool('text'); }, icon: CommentIcon, isActive: tool === 'text' }),
             React.createElement(ToolButton, { onclickTool: function () { return setTool('selection'); }, icon: PanToolIcon, isActive: tool === 'selection' }),
-            React.createElement(ToolButton, { onclickTool: undo, icon: UndoIcon, isActive: false }),
-            React.createElement(ToolButton, { onclickTool: redo, icon: RedoIcon, isActive: false }),
-            React.createElement(ToolButton, { onclickTool: handleCaptureScree, icon: SaveIcon, isActive: false }),
+            React.createElement(ToolButton, { onclickTool: undo, icon: UndoIcon }),
+            React.createElement(ToolButton, { onclickTool: redo, icon: RedoIcon }),
+            React.createElement(ToolButton, { onclickTool: handleCaptureScree, icon: SaveIcon }),
             React.createElement(ToolButton, { onclickTool: function () {
                     onClickCancel();
                     reset();
-                }, icon: CloseIcon, isActive: false })),
-        action === 'writing' ? (React.createElement("textarea", { ref: textAreaRef, onBlur: handleBlur, autoFocus: true, placeholder: 'Enter your feedback', className: 'canvas-comment-area', style: {
+                }, icon: CloseIcon })),
+        action === 'writing' ? (React.createElement("textarea", { ref: textAreaRef, onBlur: handleBlur, autofocus: true, placeholder: 'Enter your feedback', className: 'canvas-comment-area', style: {
                 top: selectedElement.y1 - 2,
                 left: selectedElement.x1,
             } })) : null,

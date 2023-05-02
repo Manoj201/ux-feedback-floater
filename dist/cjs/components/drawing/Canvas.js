@@ -1,15 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable no-case-declarations */
+/* eslint-disable react/prop-types */
 var react_1 = tslib_1.__importStar(require("react"));
-var roughjs_1 = tslib_1.__importDefault(require("roughjs"));
+var rough_esm_1 = tslib_1.__importDefault(require("roughjs/bundled/rough.esm"));
 var htmlToImage = tslib_1.__importStar(require("html-to-image"));
 require("./Canvas.css");
 var icons_material_1 = require("@mui/icons-material");
 var ToolButton_1 = tslib_1.__importDefault(require("../toolButton/ToolButton"));
 var DrawingHelper_1 = require("./DrawingHelper");
-var generator = roughjs_1.default.generator();
+var generator = rough_esm_1.default.generator();
 var Canvas = function (_a) {
     var onClickSave = _a.onClickSave, onClickCancel = _a.onClickCancel;
     var _b = (0, DrawingHelper_1.useHistory)([]), elements = _b[0], setElements = _b[1], undo = _b[2], redo = _b[3], reset = _b[4];
@@ -26,9 +28,9 @@ var Canvas = function (_a) {
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
-        var roughCanvas = roughjs_1.default.canvas(canvas);
+        var roughCanvas = rough_esm_1.default.canvas(canvas);
         elements.forEach(function (element) {
-            if (action === 'writing' && (selectedElement === null || selectedElement === void 0 ? void 0 : selectedElement.id) === element.id)
+            if (action === 'writing' && selectedElement.id === element.id)
                 return;
             (0, DrawingHelper_1.drawElement)(roughCanvas, context, element);
         });
@@ -51,7 +53,7 @@ var Canvas = function (_a) {
     }, [undo, redo]);
     (0, react_1.useEffect)(function () {
         var textArea = textAreaRef.current;
-        if (action === 'writing' && textArea) {
+        if (action === 'writing') {
             // textArea.focus();
             textArea.value = selectedElement.text;
         }
@@ -67,10 +69,9 @@ var Canvas = function (_a) {
                 elementsCopy[id].points = tslib_1.__spreadArray(tslib_1.__spreadArray([], elementsCopy[id].points, true), [{ x: x2, y: y2 }], false);
                 break;
             case 'text':
-                var canvasEl = document.getElementById('canvas');
-                var textWidth = canvasEl === null || canvasEl === void 0 ? void 0 : canvasEl.getContext('2d').measureText(options.text).width;
+                var textWidth = document.getElementById('canvas').getContext('2d').measureText(options.text).width;
                 var textHeight = 24;
-                elementsCopy[id] = tslib_1.__assign(tslib_1.__assign({}, (0, DrawingHelper_1.createElement)(id, x1, y1, x1 + textWidth, y1 ? y1 + textHeight : textHeight, type, options, generator)), { text: options.text });
+                elementsCopy[id] = tslib_1.__assign(tslib_1.__assign({}, (0, DrawingHelper_1.createElement)(id, x1, y1, x1 + textWidth, y1 + textHeight, type, options, generator)), { text: options.text });
                 break;
             default:
                 throw new Error("Type not recognised: ".concat(type));
@@ -192,14 +193,14 @@ var Canvas = function (_a) {
             react_1.default.createElement(ToolButton_1.default, { onclickTool: function () { return setTool('rectangle'); }, icon: icons_material_1.CropSquare, isActive: tool === 'rectangle' }),
             react_1.default.createElement(ToolButton_1.default, { onclickTool: function () { return setTool('text'); }, icon: icons_material_1.Comment, isActive: tool === 'text' }),
             react_1.default.createElement(ToolButton_1.default, { onclickTool: function () { return setTool('selection'); }, icon: icons_material_1.PanTool, isActive: tool === 'selection' }),
-            react_1.default.createElement(ToolButton_1.default, { onclickTool: undo, icon: icons_material_1.Undo, isActive: false }),
-            react_1.default.createElement(ToolButton_1.default, { onclickTool: redo, icon: icons_material_1.Redo, isActive: false }),
-            react_1.default.createElement(ToolButton_1.default, { onclickTool: handleCaptureScree, icon: icons_material_1.Save, isActive: false }),
+            react_1.default.createElement(ToolButton_1.default, { onclickTool: undo, icon: icons_material_1.Undo }),
+            react_1.default.createElement(ToolButton_1.default, { onclickTool: redo, icon: icons_material_1.Redo }),
+            react_1.default.createElement(ToolButton_1.default, { onclickTool: handleCaptureScree, icon: icons_material_1.Save }),
             react_1.default.createElement(ToolButton_1.default, { onclickTool: function () {
                     onClickCancel();
                     reset();
-                }, icon: icons_material_1.Close, isActive: false })),
-        action === 'writing' ? (react_1.default.createElement("textarea", { ref: textAreaRef, onBlur: handleBlur, autoFocus: true, placeholder: 'Enter your feedback', className: 'canvas-comment-area', style: {
+                }, icon: icons_material_1.Close })),
+        action === 'writing' ? (react_1.default.createElement("textarea", { ref: textAreaRef, onBlur: handleBlur, autofocus: true, placeholder: 'Enter your feedback', className: 'canvas-comment-area', style: {
                 top: selectedElement.y1 - 2,
                 left: selectedElement.x1,
             } })) : null,

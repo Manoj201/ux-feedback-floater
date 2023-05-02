@@ -1,4 +1,5 @@
-/// <reference types="react" />
-import './Canvas.css';
-declare const Canvas: ({ onClickSave, onClickCancel }: any) => JSX.Element;
 export default Canvas;
+declare function Canvas({ onClickSave, onClickCancel }: {
+    onClickSave: any;
+    onClickCancel: any;
+}): JSX.Element;

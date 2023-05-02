@@ -1,20 +1,20 @@
-declare const createElement: (id: string, x1: number, y1: number | null, x2: number | null, y2: number | null, type: string, options: any, generator: any) => {
-    id: string;
-    x1: number;
-    y1: number | null;
-    x2: number | null;
-    y2: number | null;
-    type: "line" | "rectangle";
+export function createElement(id: any, x1: any, y1: any, x2: any, y2: any, type: any, options: any, generator: any): {
+    id: any;
+    x1: any;
+    y1: any;
+    x2: any;
+    y2: any;
+    type: any;
     options: any;
     roughElement: any;
     points?: undefined;
     text?: undefined;
 } | {
-    id: string;
-    type: "pencil";
+    id: any;
+    type: any;
     points: {
-        x: number;
-        y: number | null;
+        x: any;
+        y: any;
     }[];
     options: any;
     x1?: undefined;
@@ -24,47 +24,31 @@ declare const createElement: (id: string, x1: number, y1: number | null, x2: num
     roughElement?: undefined;
     text?: undefined;
 } | {
-    id: string;
-    type: "text";
-    x1: number;
-    y1: number | null;
-    x2: number | null;
-    y2: number | null;
+    id: any;
+    type: any;
+    x1: any;
+    y1: any;
+    x2: any;
+    y2: any;
     text: string;
     options?: undefined;
     roughElement?: undefined;
     points?: undefined;
 };
-declare const getElementAtPosition: (x: number, y: number, elements: any) => any;
-declare const adjustElementCoordinates: (element: any) => {
+export function getElementAtPosition(x: any, y: any, elements: any): any;
+export function adjustElementCoordinates(element: any): {
     x1: any;
     y1: any;
     x2: any;
     y2: any;
 };
-declare const cursorForPosition: (position: string) => "nwse-resize" | "nesw-resize" | "move";
-declare const resizedCoordinates: (clientX: number, clientY: number, position: string, coordinates: any) => {
-    x1: number;
-    y1: number;
-    x2: any;
-    y2: any;
-} | {
-    x1: any;
-    y1: number;
-    x2: number;
-    y2: any;
-} | {
-    x1: number;
-    y1: any;
-    x2: any;
-    y2: number;
-} | {
+export function cursorForPosition(position: any): "nwse-resize" | "nesw-resize" | "move";
+export function resizedCoordinates(clientX: any, clientY: any, position: any, coordinates: any): {
     x1: any;
     y1: any;
-    x2: number;
-    y2: number;
+    x2: any;
+    y2: any;
 } | null;
-declare const useHistory: (initialState: any) => any[];
-declare const drawElement: (roughCanvas: any, context: any, element: any) => void;
-declare const adjustmentRequired: (type: string) => boolean;
-export { createElement, getElementAtPosition, adjustElementCoordinates, cursorForPosition, resizedCoordinates, useHistory, drawElement, adjustmentRequired, };
+export function useHistory(initialState: any): any[];
+export function drawElement(roughCanvas: any, context: any, element: any): void;
+export function adjustmentRequired(type: any): boolean;

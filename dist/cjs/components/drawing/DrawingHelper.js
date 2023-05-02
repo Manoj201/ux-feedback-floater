@@ -9,10 +9,9 @@ var createElement = function (id, x1, y1, x2, y2, type, options, generator) {
     switch (type) {
         case 'line':
         case 'rectangle':
-            // eslint-disable-next-line no-case-declarations
             var roughElement = type === 'line'
                 ? generator.line(x1, y1, x2, y2, { stroke: options.color })
-                : generator.rectangle(x1, y1, x2 ? x2 - x1 : 0 - x1, y1 && y2 ? y2 - y1 : y2, {
+                : generator.rectangle(x1, y1, x2 - x1, y2 - y1, {
                     stroke: options.color,
                 });
             return { id: id, x1: x1, y1: y1, x2: x2, y2: y2, type: type, options: options, roughElement: roughElement };
