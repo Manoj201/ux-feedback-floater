@@ -14,6 +14,8 @@ import whiteSmilingSVG from '../../images/whiteSmiling.svg'
 import worriedSVG from '../../images/worried.svg'
 import arrowSVG from '../../images/arrow.svg'
 
+import { UXFeeedBackFloaterType } from '../../types/component.types'
+
 import './UXFeeedBackFloater.css'
 
 const initialFormData = {
@@ -22,7 +24,7 @@ const initialFormData = {
   comments: '',
 }
 
-const UXFeeedBackFloater = () => {
+const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspaceId, token }) => {
   const [isCollapse, setIsCollapse] = useState(true)
   const [rating, setRating] = useState(0)
   const [clickedAddImage, setClickedAddImage] = useState(false)
@@ -61,28 +63,31 @@ const UXFeeedBackFloater = () => {
     setClickedAddImage(false)
   }
 
+  const getBase64StringFromDataURL = (dataURL: string) => dataURL.replace('data:', '').replace(/^.+,/, '')
+
   const handleSubmit = async (formData: any) => {
-    console.log(formData, rating, imageData)
+    // console.log(formData, rating, imageData)
+
+    const { comments, name: fullName, email } = formData
 
     const rawResponse = await fetch('https://nsldev.nimble.expert/AdminConsole/api/Feedback', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        comments: formData.comments,
-        workspaceId: 1,
-        fullName: formData.name,
-        email: formData.email,
-        screenshotData: imageData,
-        screenshotFileName: 'nsl-iamge',
+        comments,
+        email,
+        fullName,
+        workspaceId,
+        screenshotData: imageData ? getBase64StringFromDataURL(imageData) : null,
+        screenshotFileName: imageData ? appName : null,
         feedbackFiles: [],
       }),
     })
-    const content = await rawResponse.json()
-    console.log(content)
-
+    await rawResponse.json()
     setFormData(initialFormData)
   }
 

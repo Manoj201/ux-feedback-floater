@@ -174,7 +174,7 @@ const drawElement = (roughCanvas, context, element) => {
       break
     case 'pencil':
       context.fillStyle = element.options.color
-      const stroke = getSvgPathFromStroke(getStroke(element.points))
+      const stroke = getSvgPathFromStroke(getStroke(element.points, { size: 3 }))
       context.fill(new Path2D(stroke))
       break
     case 'text':

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { FieldIndicator } from '../../types/component.types'
+import { FieldIndicatorType } from '../../types/component.types'
 import './FieldIndicator.css'
 
-const FieldIndicator: React.FC<FieldIndicator> = ({ data }: FieldIndicator) => {
+const FieldIndicator: React.FC<FieldIndicatorType> = ({ data }: FieldIndicatorType) => {
   return (
     <div className='feedback-form-inputs-left-container'>
       {data.map((item, index) => (

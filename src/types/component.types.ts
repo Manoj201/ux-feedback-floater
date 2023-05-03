@@ -38,7 +38,7 @@ interface IndicatorDataType {
   topLineHeight: number
 }
 
-export interface FieldIndicator {
+export interface FieldIndicatorType {
   data: Array<IndicatorDataType>
 }
 
@@ -46,4 +46,10 @@ export interface ToolButtonType {
   onclickTool: () => void
   icon: any
   isActive: boolean
+}
+
+export interface UXFeeedBackFloaterType {
+  token: string
+  appName: string
+  workspaceId: string
 }

@@ -8918,10 +8918,10 @@ uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-ux-feedback-floating-button@0.1.25:
-  version "0.1.25"
-  resolved "https://registry.yarnpkg.com/ux-feedback-floating-button/-/ux-feedback-floating-button-0.1.25.tgz#e0e5258101d1d3233573d80c2c35ea9cdad2c193"
-  integrity sha512-L2HlWfBIAF7QsIVAGaVx+g9buZ/MVa+xBNuxv99eipqgt0hIwgkULLPiaFs+QIXlxSS2lSn0b/xnKOaEwn8Dyw==
+ux-feedback-floating-button@0.1.26:
+  version "0.1.26"
+  resolved "https://registry.yarnpkg.com/ux-feedback-floating-button/-/ux-feedback-floating-button-0.1.26.tgz#6caea2723a8c56b70b69976e8b9e66e3637db8f9"
+  integrity sha512-bSuLW1Jb7BTP0dKqq7xvbNPLHsvHErUfyKdwGiO+lmpzYkVQZblFCDksz+xOA+HD0InhcrPf9bK1YZ5EdpDuEg==
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"
