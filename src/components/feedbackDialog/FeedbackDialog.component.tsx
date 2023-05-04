@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Dialog, IconButton, useMediaQuery } from '@mui/material'
+import { Dialog, IconButton, useMediaQuery, CircularProgress } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 
@@ -29,6 +29,7 @@ const FeedbackDialog: React.FC<FeedbackDialogType> = ({
   onClickRetakeScreenshot,
   initialFormData,
   onClickSubmit,
+  submitAPIResponse,
 }: FeedbackDialogType) => {
   const [emailError, setEmailError] = useState(true)
   const [submitClicked, setSubmitClicked] = useState(false)
@@ -163,16 +164,30 @@ const FeedbackDialog: React.FC<FeedbackDialogType> = ({
               </div>
               <div className='feedback-form-submit-wrapper'>
                 <div className='feedback-form-submit-button' onClick={handleSave}>
-                  Submit
+                  {!submitAPIResponse.isSubmitting ? (
+                    <div>Send</div>
+                  ) : (
+                    <div>
+                      Sending &nbsp;
+                      <CircularProgress size={20} sx={{ color: '#FFF' }} />
+                    </div>
+                  )}
                 </div>
               </div>
             </>
           ) : (
             <div className='feedback-dialog-thank-wrapper'>
-              <div>
-                <img src={doneSVG} alt='done' className='done-image' />
+              {submitAPIResponse.submitSuccess && (
+                <div>
+                  <img src={doneSVG} alt='done' className='done-image' />
+                </div>
+              )}
+              <div className='feedback-dialog-thank-text'>
+                {(submitAPIResponse.submitSuccess || submitAPIResponse.isSubmitting) &&
+                  'Thank you for your feedback! We really appreciate it'}
+                {submitAPIResponse.submitError &&
+                  'Oops error saving your feedback! Something went Wrong Please try again'}
               </div>
-              <div className='feedback-dialog-thank-text'>Thank you for your feedback! We really appreciate it</div>
             </div>
           )}
         </div>

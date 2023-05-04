@@ -11,6 +11,12 @@ interface FormDataType {
   comments: string | null
 }
 
+interface SubmitAPIResponsePropType {
+  isSubmitting: boolean
+  submitSuccess: boolean
+  submitError: boolean
+}
+
 export interface FeedbackDialogType {
   open: boolean
   onClickDialogClose: () => void
@@ -21,6 +27,7 @@ export interface FeedbackDialogType {
   onClickRetakeScreenshot: () => void
   initialFormData: FormDataType
   onClickSubmit: (data: FormDataType) => void
+  submitAPIResponse: SubmitAPIResponsePropType
 }
 
 export interface FeedbackTextfieldType {

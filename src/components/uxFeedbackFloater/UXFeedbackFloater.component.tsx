@@ -30,6 +30,10 @@ const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspa
   const [clickedAddImage, setClickedAddImage] = useState(false)
   const [imageData, setImageData] = useState(null)
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false)
+  const [submitError, setSubmitError] = useState<boolean>(false)
+
   const [formData, setFormData] = useState(initialFormData)
 
   const iconMap: any = useMemo(() => {
@@ -66,29 +70,42 @@ const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspa
   const getBase64StringFromDataURL = (dataURL: string) => dataURL.replace('data:', '').replace(/^.+,/, '')
 
   const handleSubmit = async (formData: any) => {
-    // console.log(formData, rating, imageData)
-
+    setIsSubmitting(true)
+    setSubmitError(false)
+    setSubmitSuccess(false)
     const { comments, name: fullName, email } = formData
+    try {
+      const response = await fetch('https://nsldev.nimble.expert/AdminConsole/api/Feedback', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          comments,
+          email,
+          fullName,
+          workspaceId,
+          screenshotData: imageData ? getBase64StringFromDataURL(imageData) : null,
+          screenshotFileName: imageData ? appName : null,
+          feedbackFiles: [],
+        }),
+      })
+      if (response.status === 200 || response.status === 201) {
+        console.log('Feedback API Submit success', response)
+        setSubmitSuccess(true)
+      } else {
+        throw new Error()
+      }
+    } catch (error) {
+      setSubmitError(true)
+      setSubmitSuccess(false)
+      console.log('Feedback API Submit error')
+    }
 
-    const rawResponse = await fetch('https://nsldev.nimble.expert/AdminConsole/api/Feedback', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        comments,
-        email,
-        fullName,
-        workspaceId,
-        screenshotData: imageData ? getBase64StringFromDataURL(imageData) : null,
-        screenshotFileName: imageData ? appName : null,
-        feedbackFiles: [],
-      }),
-    })
-    await rawResponse.json()
     setFormData(initialFormData)
+    setIsSubmitting(false)
   }
 
   const handleDialogClose = () => {
@@ -139,6 +156,11 @@ const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspa
         onClickRetakeScreenshot={() => setClickedAddImage(true)}
         initialFormData={formData}
         onClickSubmit={handleSubmit}
+        submitAPIResponse={{
+          isSubmitting,
+          submitSuccess,
+          submitError,
+        }}
       />
       <Backdrop
         sx={{
