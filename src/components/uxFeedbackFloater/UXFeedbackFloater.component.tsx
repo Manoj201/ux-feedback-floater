@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react'
 import classNames from 'classnames'
 import Backdrop from '@mui/material/Backdrop'
+import ScopedCssBaseline from '@mui/material/ScopedCssBaseline'
 
 import Delayed from '../delayed/Delayed.component'
 import FeedbackDialog from '../feedbackDialog/FeedbackDialog.component'
@@ -116,64 +117,66 @@ const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspa
 
   return (
     <>
-      <div
-        className={classNames('floating-button', isCollapse === false && 'floating-button-clicked')}
-        onClick={rating === 0 ? handleClickFloatingButton : () => {}}
-      >
-        {isCollapse ? (
-          <>
-            <div>Feed&#10;back</div>
-          </>
-        ) : (
-          <Delayed waitBeforeShow={300}>
-            <div className='detailed-container'>
-              <div>
-                <div className='experience-text'>? How is your experience so far</div>
-                <div className='emojiWrapper'>
-                  {Object.entries(iconMap).map((_key, index) => (
-                    <img
-                      key={index}
-                      src={iconMap[index + 1]}
-                      alt='cryingSVG'
-                      className='emoji'
-                      onClick={() => handleClickEmoji(index + 1)}
-                    />
-                  ))}
+      <ScopedCssBaseline>
+        <div
+          className={classNames('floating-button', isCollapse === false && 'floating-button-clicked')}
+          onClick={rating === 0 ? handleClickFloatingButton : () => {}}
+        >
+          {isCollapse ? (
+            <>
+              <div>Feed&#10;back</div>
+            </>
+          ) : (
+            <Delayed waitBeforeShow={300}>
+              <div className='detailed-container'>
+                <div>
+                  <div className='experience-text'>? How is your experience so far</div>
+                  <div className='emojiWrapper'>
+                    {Object.entries(iconMap).map((_key, index) => (
+                      <img
+                        key={index}
+                        src={iconMap[index + 1]}
+                        alt='cryingSVG'
+                        className='emoji'
+                        onClick={() => handleClickEmoji(index + 1)}
+                      />
+                    ))}
+                  </div>
                 </div>
+                <img src={arrowSVG} alt='arrow' className='arrow' onClick={() => setIsCollapse(true)} />
               </div>
-              <img src={arrowSVG} alt='arrow' className='arrow' onClick={() => setIsCollapse(true)} />
-            </div>
-          </Delayed>
-        )}
-      </div>
-      <FeedbackDialog
-        open={rating > 0 && !clickedAddImage}
-        onClickDialogClose={handleDialogClose}
-        rating={rating}
-        onClickAddImage={handleClickAddImage}
-        isScreenCaptured={imageData ? true : false}
-        onClickRemoveImage={() => setImageData(null)}
-        onClickRetakeScreenshot={() => setClickedAddImage(true)}
-        initialFormData={formData}
-        onClickSubmit={handleSubmit}
-        submitAPIResponse={{
-          isSubmitting,
-          submitSuccess,
-          submitError,
-        }}
-      />
-      <Backdrop
-        sx={{
-          color: '#fff',
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          backgroundColor: 'rgba(0, 0, 0, 0)',
-        }}
-        open={clickedAddImage}
-      >
-        {clickedAddImage && (
-          <Canvas onClickCancel={() => setClickedAddImage(false)} onClickSave={handleClickScreenCapture} />
-        )}
-      </Backdrop>
+            </Delayed>
+          )}
+        </div>
+        <FeedbackDialog
+          open={rating > 0 && !clickedAddImage}
+          onClickDialogClose={handleDialogClose}
+          rating={rating}
+          onClickAddImage={handleClickAddImage}
+          isScreenCaptured={imageData ? true : false}
+          onClickRemoveImage={() => setImageData(null)}
+          onClickRetakeScreenshot={() => setClickedAddImage(true)}
+          initialFormData={formData}
+          onClickSubmit={handleSubmit}
+          submitAPIResponse={{
+            isSubmitting,
+            submitSuccess,
+            submitError,
+          }}
+        />
+        <Backdrop
+          sx={{
+            color: '#fff',
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+          }}
+          open={clickedAddImage}
+        >
+          {clickedAddImage && (
+            <Canvas onClickCancel={() => setClickedAddImage(false)} onClickSave={handleClickScreenCapture} />
+          )}
+        </Backdrop>
+      </ScopedCssBaseline>
     </>
   )
 }

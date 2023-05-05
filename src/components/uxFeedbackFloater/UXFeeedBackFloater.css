@@ -11,8 +11,8 @@
     align-items: center;
     color: #0C1B2A;
     direction: rtl;
-    width: 30px;
-    height: 50px;
+    width: 50px;
+    min-height: 70px;
     transition: width  0.5s,  background-color 0.5s ease;
     cursor: pointer;
     font-weight: 600;
@@ -22,7 +22,7 @@
 
 
 .floating-button-clicked {
-    width: 280px;
+    width: 300px;
     background-color: #50606B;
 }
 
@@ -52,12 +52,12 @@
     padding-right: 8px;
     height: 27px;
     transition: height 0.2s;
-    width: 28px;
+    width: 48px;
 }
 
 .emoji:hover {
     height: 35px;
-    width: 28px;
+    width: 48px;
 }
 
 .arrow {
