@@ -58,5 +58,5 @@ export interface ToolButtonType {
 export interface UXFeeedBackFloaterType {
   token: string
   appName: string
-  workspaceId: string
+  workspaceCode: string
 }

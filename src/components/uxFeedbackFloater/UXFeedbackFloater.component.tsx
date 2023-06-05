@@ -25,7 +25,7 @@ const initialFormData = {
   comments: '',
 }
 
-const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspaceId, token }) => {
+const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspaceCode, token }) => {
   const [isCollapse, setIsCollapse] = useState(true)
   const [rating, setRating] = useState(0)
   const [clickedAddImage, setClickedAddImage] = useState(false)
@@ -87,10 +87,10 @@ const UXFeeedBackFloater: React.FC<UXFeeedBackFloaterType> = ({ appName, workspa
           comments,
           email,
           fullName,
-          workspaceId,
           screenshotData: imageData ? getBase64StringFromDataURL(imageData) : null,
           screenshotFileName: imageData ? appName : null,
           feedbackFiles: [],
+          workspaceCode,
         }),
       })
       if (response.status === 200 || response.status === 201) {
